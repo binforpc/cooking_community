@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Following - Cooking Community</title>
+
+  <!-- Updated Font Awesome so icons actually load -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pawXR23Wg0yM1cB+q2I6sfP+aSh9EZfk04su5Oe5l/eq/U2b2v7okF7SLldVeN1MhMl5axk7fCsfrc+U7k4f4g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    :root {
+      --primary: #8DD8FF;
+      --secondary: #BBFBFF;
+      --accent: #6bc8ff;
+      --text: #333;
+      --light: #fff;
+      --gray: #f5f5f5;
+      --dark-gray: #ddd;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      min-height: 100vh;
+      color: var(--text);
+      padding-bottom: 70px;
+    }
+
+    /* Top Navbar */
+    nav {
+      background-color: #ffffffdd;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: var(--accent);
+      color: var(--light);
+    }
+
+    /* Search Bar */
+    .search-container {
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      background: var(--light);
+      position: sticky;
+      top: 72px;
+      z-index: 900;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 800px;
+      position: relative;
+      display: flex;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 3rem;
+      border-radius: 30px;
+      border: 1px solid var(--dark-gray);
+      font-size: 1rem;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+
+    .search-btn {
+      background: var(--accent);
+      color: var(--light);
+      border: none;
+      border-radius: 30px;
+      padding: 0 1.5rem;
+      margin-left: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .search-btn:hover {
+      background: #5ab6e6;
+    }
+
+    /* Main Layout */
+    .main-content {
+      display: flex;
+      padding: 1.5rem;
+      gap: 1.5rem;
+    }
+
+    .left-column {
+      flex: 2;
+    }
+
+    .right-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .see-all {
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* Following List */
+    .following-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .following-card {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .following-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+    }
+
+    .following-info {
+      flex-grow: 1;
+    }
+
+    .following-name {
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+
+    .following-specialty {
+      color: #666;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .following-stats {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .following-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .message-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .unfollow-btn {
+      background: none;
+      border: 1px solid var(--dark-gray);
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    /* Recent Activity */
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .activity-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .activity-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .activity-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .activity-user {
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .activity-time {
+      color: #777;
+      font-size: 0.7rem;
+      margin-left: auto;
+    }
+
+    .activity-content {
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .activity-thumbnail {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      max-height: 180px;
+      object-fit: cover;
+    }
+
+    .activity-actions {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: #777;
+    }
+
+    .activity-action {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+    }
+
+    /* Widgets */
+    .widget {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .widget-title {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .widget-title i {
+      font-size: 1.2rem;
+    }
+
+    .suggestions-list, .trending-tags {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--dark-gray);
+    }
+
+    .suggestion-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 0.8rem;
+    }
+
+    .suggestion-info {
+      flex-grow: 1;
+    }
+
+    .suggestion-name {
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .suggestion-specialty {
+      color: #777;
+      font-size: 0.8rem;
+    }
+
+    .follow-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.7rem;
+      cursor: pointer;
+    }
+
+    .trending-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .trending-tag {
+      background: var(--gray);
+      color: var(--text);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .trending-tag:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    .event-item {
+      margin-bottom: 1rem;
+    }
+
+    .event-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--light);
+      display: flex;
+      justify-content: space-around;
+      padding: 0.8rem 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #666;
+      font-size: 0.8rem;
+      transition: color 0.3s;
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    @media (max-width: 900px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .right-column {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .right-column {
+        grid-template-columns: 1fr;
+      }
+      .search-bar {
+        flex-direction: column;
+      }
+      .search-btn {
+        margin-top: 0.5rem;
+        width: 100%;
+      }
+      .following-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      .following-actions {
+        flex-direction: row;
+        width: 100%;
+      }
+      .message-btn, .unfollow-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav>
+    <div class="logo">Cooking Community</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="profile1.html">Profile</a></li>
+      <li><a href="recipe_book_page.html">Recipes</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="following.html" class="active">Following</a></li>
+      <li><a href="shorts_page.html">Shorts</a></li>
+      <li><a href="detail.html">Complete Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search people you follow...">
+      <button class="search-btn">Search</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Left Column -->
+    <div class="left-column">
+      <div class="section-title">
+        <span>People You Follow</span>
+        <a href="#" class="see-all">See All (24)</a>
+      </div>
+      <div class="following-list">
+        <!-- Card 1 -->
+        <div class="following-card">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" class="following-avatar" alt="">
+          <div class="following-info">
+            <div class="following-name">Chef Marco</div>
+            <div class="following-specialty">Italian Cuisine • 1.2M followers</div>
+            <div class="following-stats">
+              <span>142 recipes</span>
+              <span>56 videos</span>
+              <span>8 books</span>
+            </div>
+          </div>
+          <div class="following-actions">
+            <button class="message-btn">Message</button>
+            <button class="unfollow-btn">Unfollow</button>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="following-card">
+          <img src="https://randomuser.me/api/portraits/women/65.jpg" class="following-avatar" alt="">
+          <div class="following-info">
+            <div class="following-name">Yuki's Kitchen</div>
+            <div class="following-specialty">Japanese Cuisine • 856K followers</div>
+            <div class="following-stats">
+              <span>89 recipes</span>
+              <span>32 videos</span>
+              <span>3 books</span>
+            </div>
+          </div>
+          <div class="following-actions">
+            <button class="message-btn">Message</button>
+            <button class="unfollow-btn">Unfollow</button>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="following-card">
+          <img src="https://randomuser.me/api/portraits/women/22.jpg" class="following-avatar" alt="">
+          <div class="following-info">
+            <div class="following-name">Sweet Treats</div>
+            <div class="following-specialty">Desserts • 2.4M followers</div>
+            <div class="following-stats">
+              <span>215 recipes</span>
+              <span>78 videos</span>
+              <span>5 books</span>
+            </div>
+          </div>
+          <div class="following-actions">
+            <button class="message-btn">Message</button>
+            <button class="unfollow-btn">Unfollow</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:2rem;">
+        <span>Recent Activity</span>
+        <a href="#" class="see-all">See All</a>
+      </div>
+      <div class="activity-list">
+        <!-- Activity 1 -->
+        <div class="activity-item">
+          <div class="activity-header">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="activity-avatar" alt="">
+            <span class="activity-user">Chef Marco</span>
+            <span class="activity-time">2 hours ago</span>
+          </div>
+          <div class="activity-content">
+            Just posted a new pasta recipe! Check out my homemade fettuccine alfredo with truffle oil.
+          </div>
+          <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="activity-thumbnail" alt="">
+          <div class="activity-actions">
+            <div class="activity-action"><i class="far fa-heart"></i> <span>1.2K</span></div>
+            <div class="activity-action"><i class="far fa-comment"></i> <span>84</span></div>
+            <div class="activity-action"><i class="fas fa-share"></i> <span>Share</span></div>
+          </div>
+        </div>
+        <!-- Activity 2 -->
+        <div class="activity-item">
+          <div class="activity-header">
+            <img src="https://randomuser.me/api/portraits/women/65.jpg" class="activity-avatar" alt="">
+            <span class="activity-user">Yuki's Kitchen</span>
+            <span class="activity-time">5 hours ago</span>
+          </div>
+          <div class="activity-content">
+            New cooking short: Perfect tamagoyaki (Japanese omelette) technique in 60 seconds!
+          </div>
+          <div class="activity-actions">
+            <div class="activity-action"><i class="far fa-heart"></i> <span>856</span></div>
+            <div class="activity-action"><i class="far fa-comment"></i> <span>42</span></div>
+            <div class="activity-action"><i class="fas fa-share"></i> <span>Share</span></div>
+          </div>
+        </div>
+        <!-- Activity 3 -->
+        <div class="activity-item">
+          <div class="activity-header">
+            <img src="https://randomuser.me/api/portraits/women/22.jpg" class="activity-avatar" alt="">
+            <span class="activity-user">Sweet Treats</span>
+            <span class="activity-time">1 day ago</span>
+          </div>
+          <div class="activity-content">
+            My new cookbook "Decadent Desserts" is now available for pre-order! Link in bio.
+          </div>
+          <div class="activity-actions">
+            <div class="activity-action"><i class="far fa-heart"></i> <span>2.4K</span></div>
+            <div class="activity-action"><i class="far fa-comment"></i> <span>156</span></div>
+            <div class="activity-action"><i class="fas fa-share"></i> <span>Share</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+      <div class="widget">
+        <h3 class="widget-title"><i class="fas fa-user-plus"></i> Suggestions For You</h3>
+        <ul class="suggestions-list">
+          <li class="suggestion-item">
+            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="suggestion-avatar" alt="">
+            <div class="suggestion-info">
+              <div class="suggestion-name">Grill Master</div>
+              <div class="suggestion-specialty">BBQ &amp; Grilling</div>
+            </div>
+            <button class="follow-btn">Follow</button>
+          </li>
+          <li class="suggestion-item">
+            <img src="https://randomuser.me/api/portraits/women/33.jpg" class="suggestion-avatar" alt="">
+            <div class="suggestion-info">
+              <div class="suggestion-name">Green Eats</div>
+              <div class="suggestion-specialty">Vegan Recipes</div>
+            </div>
+            <button class="follow-btn">Follow</button>
+          </li>
+          <li class="suggestion-item">
+            <img src="https://randomuser.me/api/portraits/men/75.jpg" class="suggestion-avatar" alt="">
+            <div class="suggestion-info">
+              <div class="suggestion-name">Grill Master Mike</div>
+              <div class="suggestion-specialty">Outdoor Cooking</div>
+            </div>
+            <button class="follow-btn">Follow</button>
+          </li>
+          <li class="suggestion-item">
+            <img src="https://randomuser.me/api/portraits/men/42.jpg" class="suggestion-avatar" alt="">
+            <div class="suggestion-info">
+              <div class="suggestion-name">Bread Baker Tom</div>
+              <div class="suggestion-specialty">Artisan Breads</div>
+            </div>
+            <button class="follow-btn">Follow</button>
+          </li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title"><i class="fas fa-hashtag"></i> Trending Tags</h3>
+        <div class="trending-tags">
+          <span class="trending-tag">#PastaNight</span>
+          <span class="trending-tag">#VeganRecipes</span>
+          <span class="trending-tag">#MealPrep</span>
+          <span class="trending-tag">#Baking</span>
+          <span class="trending-tag">#Keto</span>
+          <span class="trending-tag">#QuickMeals</span>
+          <span class="trending-tag">#HomeChef</span>
+          <span class="trending-tag">#FoodPhotography</span>
+        </div>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title"><i class="fas fa-calendar-alt"></i> Upcoming Events</h3>
+        <div class="event-item">
+          <div class="event-date">JUN 15</div>
+          <div class="event-title">Virtual Pasta Making Class</div>
+          <div class="event-host">Hosted by Chef Marco</div>
+          <button class="event-btn">RSVP</button>
+        </div>
+        <div class="event-item">
+          <div class="event-date">JUN 22</div>
+          <div class="event-title">Summer BBQ Techniques</div>
+          <div class="event-host">With Grill Master Mike</div>
+          <button class="event-btn">RSVP</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="videos.html" class="nav-item"><i class="fas fa-play-circle"></i><span>Videos</span></a>
+    <a href="shorts_page.html" class="nav-item"><i class="fas fa-film"></i><span>Shorts</span></a>
+    <a href="recipe_book_page.html" class="nav-item"><i class="fas fa-book-open"></i><span>Recipes</span></a>
+    <a href="following.html" class="nav-item active"><i class="fas fa-user-friends"></i><span>Following</span></a>
+  </nav>
+
+  <script>
+    // Follow toggle
+    document.querySelectorAll('.follow-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.closest('.suggestion-item').querySelector('.suggestion-name').textContent;
+        if (btn.textContent === 'Follow') {
+          btn.textContent = 'Following';
+          btn.style.backgroundColor = '#4CAF50';
+          alert(`You're now following ${name}`);
+        } else {
+          btn.textContent = 'Follow';
+          btn.style.backgroundColor = 'var(--accent)';
+        }
+      });
+    });
+
+    // Unfollow
+    document.querySelectorAll('.unfollow-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.following-card');
+        const name = card.querySelector('.following-name').textContent;
+        if (confirm(`Are you sure you want to unfollow ${name}?`)) {
+          card.remove();
+        }
+      });
+    });
+
+    // Message
+    document.querySelectorAll('.message-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const name = btn.closest('.following-card').querySelector('.following-name').textContent;
+        alert(`Opening message chat with ${name}`);
+      });
+    });
+
+    // Trending tags
+    document.querySelectorAll('.trending-tag').forEach(tag => {
+      tag.addEventListener('click', () => {
+        alert(`Showing content for ${tag.textContent}`);
+      });
+    });
+
+    // RSVP
+    document.querySelectorAll('.event-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const title = btn.closest('.event-item').querySelector('.event-title').textContent;
+        btn.textContent = 'RSVP Confirmed!';
+        btn.style.backgroundColor = '#4CAF50';
+        alert(`You've RSVP'd to "${title}"`);
+      });
+    });
+
+    // Search
+    const searchBtn = document.querySelector('.search-btn');
+    const searchInput = document.querySelector('.search-bar input');
+    searchBtn.addEventListener('click', () => {
+      if (searchInput.value.trim()) {
+        alert(`Searching for: ${searchInput.value}`);
+      }
+    });
+    searchInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>

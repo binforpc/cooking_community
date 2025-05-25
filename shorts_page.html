@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browse Shorts - Cooking Community</title>
+  <style>
+    :root {
+      --primary: #8DD8FF;
+      --secondary: #BBFBFF;
+      --accent: #6bc8ff;
+      --text: #333;
+      --light: #fff;
+      --gray: #f5f5f5;
+      --dark-gray: #ddd;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      min-height: 100vh;
+      color: var(--text);
+      padding-bottom: 70px; /* for bottom nav */
+    }
+
+    /* Top Navbar (copied from home.html) */
+    nav.top-nav {
+      background-color: #ffffffdd;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav.top-nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav.top-nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav.top-nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav.top-nav ul li a:hover,
+    nav.top-nav ul li a.active {
+      background-color: var(--accent);
+      color: var(--light);
+    }
+
+    .search-container {
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      background: var(--light);
+      position: sticky;
+      top: 72px;
+      z-index: 900;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 800px;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .search-bar input {
+      flex: 1;
+      min-width: 200px;
+      padding: 0.8rem 1rem 0.8rem 3rem;
+      border-radius: 30px;
+      border: 1px solid var(--dark-gray);
+      font-size: 1rem;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+
+    .search-btn {
+      background: var(--accent);
+      color: var(--light);
+      border: none;
+      border-radius: 30px;
+      padding: 0.8rem 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .search-btn:hover {
+      background: #5ab6e6;
+    }
+
+    /* Shorts Container */
+    .shorts-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .short-card {
+      width: 100%;
+      max-width: 400px;
+      height: 80vh;
+      max-height: 700px;
+      background: var(--light);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .short-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    .short-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      color: white;
+    }
+
+    .short-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .short-creator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+
+    .creator-pic {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .short-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: #ddd;
+    }
+
+    .short-actions {
+      position: absolute;
+      right: 10px;
+      bottom: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .action-icon {
+      background: rgba(0,0,0,0.5);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+
+    /* Bottom Navigation */
+    nav.bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--light);
+      display: flex;
+      justify-content: space-around;
+      padding: 0.8rem 0;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    .bottom-nav .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #666;
+      font-size: 0.8rem;
+      transition: color 0.3s;
+    }
+
+    .bottom-nav .nav-item i {
+      font-size: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .bottom-nav .nav-item.active {
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .short-card {
+        height: 75vh;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="top-nav">
+    <div class="logo">Cooking Community</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="profile1.html">Profile</a></li>
+      <li><a href="recipe_book_page.html">Recipes</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="following.html">Following</a></li>
+      <li><a href="shorts_page.html" class="active">Shorts</a></li>
+      <li><a href="detail.html">Complete Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Search -->
+  <div class="search-container">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search recipes, chefs, or ingredients..." aria-label="Search">
+      <button class="search-btn">Search</button>
+    </div>
+  </div>
+
+  <!-- Shorts Feed -->
+  <div class="shorts-container">
+    <!-- Short Card Template -->
+    <div class="short-card">
+      <video class="short-video" autoplay loop muted>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-woman-cooking-in-the-kitchen-3973-large.mp4" type="video/mp4">
+      </video>
+      <div class="short-actions">
+        <button class="action-btn">
+          <div class="action-icon"><i class="fas fa-heart"></i></div>
+          <span>24.5K</span>
+        </button>
+        <button class="action-btn">
+          <div class="action-icon"><i class="fas fa-comment"></i></div>
+          <span>1.2K</span>
+        </button>
+        <button class="action-btn">
+          <div class="action-icon"><i class="fas fa-share"></i></div>
+          <span>Share</span>
+        </button>
+      </div>
+      <div class="short-info">
+        <div class="short-title">Quick Pasta Recipe in 60 Seconds!</div>
+        <div class="short-creator">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" class="creator-pic" alt="Chef Marco">
+          <span>Chef Marco</span>
+        </div>
+        <div class="short-stats">
+          <span>1.2M views</span>
+          <span>#QuickMeal #Pasta</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Repeat additional <div class="short-card">…</div> as needed -->
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="videos.html" class="nav-item">
+      <i class="fas fa-play-circle"></i>
+      <span>Videos</span>
+    </a>
+    <a href="shorts_page.html" class="nav-item active">
+      <i class="fas fa-film"></i>
+      <span>Shorts</span>
+    </a>
+    <a href="recipes.html" class="nav-item">
+      <i class="fas fa-book-open"></i>
+      <span>Recipes</span>
+    </a>
+    <a href="following.html" class="nav-item">
+      <i class="fas fa-user-friends"></i>
+      <span>Following</span>
+    </a>
+  </nav>
+
+  <script>
+    // Toggle play/pause on click
+    document.querySelectorAll('.short-video').forEach(video => {
+      video.addEventListener('click', () => {
+        video.paused ? video.play() : video.pause();
+      });
+    });
+
+    // Search handler
+    const searchBtn = document.querySelector('.search-btn');
+    const searchInput = document.querySelector('.search-bar input');
+    searchBtn.addEventListener('click', () => {
+      const term = searchInput.value.trim();
+      if (term) {
+        alert(`Searching for: ${term}`);
+      }
+    });
+    searchInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') searchBtn.click();
+    });
+  </script>
+</body>
+</html>

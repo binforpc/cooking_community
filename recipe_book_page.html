@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recipe Books - Cooking Community</title>
+
+  <!-- Reliable Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-pawXR23Wg0yM1cB+q2I6sfP+aSh9EZfk04su5Oe5l/eq/U2b2v7okF7SLldVeN1MhMl5axk7fCsfrc+U7k4f4g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    :root {
+      --primary: #8DD8FF;
+      --secondary: #BBFBFF;
+      --accent: #6bc8ff;
+      --text: #333;
+      --light: #fff;
+      --gray: #f5f5f5;
+      --dark-gray: #ddd;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      min-height: 100vh;
+      color: var(--text);
+      padding-bottom: 70px;
+    }
+
+    /* Top Navbar */
+    nav {
+      background-color: #ffffffdd;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: var(--accent);
+      color: var(--light);
+    }
+
+    /* Search Bar */
+    .search-container {
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      background: var(--light);
+      position: sticky;
+      top: 72px;
+      z-index: 900;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .search-bar {
+      width: 100%; max-width: 800px;
+      position: relative;
+      display: flex;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 3rem;
+      border-radius: 30px;
+      border: 1px solid var(--dark-gray);
+      font-size: 1rem;
+    }
+    .search-icon {
+      position: absolute; left:1rem; top:50%; transform:translateY(-50%);
+      color:#777;
+    }
+    .search-btn {
+      background: var(--accent);
+      color: var(--light);
+      border: none;
+      border-radius:30px;
+      padding:0 1.5rem;
+      margin-left:0.5rem;
+      font-weight:bold;
+      cursor:pointer;
+      transition:background 0.3s;
+    }
+    .search-btn:hover { background:#5ab6e6; }
+
+    /* Main Layout */
+    .main-content {
+      display:flex; padding:1.5rem; gap:1.5rem;
+    }
+    .left-column { flex:2; }
+    .right-column {
+      flex:1; display:flex; flex-direction:column; gap:1.5rem;
+    }
+
+    .section-title {
+      font-size:1.3rem; margin-bottom:1rem;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .see-all {
+      font-size:0.9rem; color:var(--accent); text-decoration:none;
+    }
+
+    /* Book Grid */
+    .books-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(160px,1fr));
+      gap:1.2rem; margin-bottom:2rem;
+    }
+    .book-card {
+      background:var(--light);
+      border-radius:8px;
+      overflow:hidden;
+      box-shadow:0 3px 10px rgba(0,0,0,0.1);
+      transition:transform 0.3s;
+      cursor:pointer;
+      display:flex; flex-direction:column;
+    }
+    .book-card:hover { transform:translateY(-5px); }
+    .book-cover {
+      width:100%; height:180px; object-fit:cover;
+    }
+    .book-info {
+      padding:0.8rem; flex-grow:1; display:flex; flex-direction:column;
+    }
+    .book-title {
+      font-weight:bold; margin-bottom:0.3rem;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+      overflow:hidden; font-size:0.95rem;
+    }
+    .book-author {
+      color:#666; font-size:0.8rem; margin-bottom:0.5rem;
+    }
+    .book-stats {
+      display:flex; justify-content:space-between;
+      font-size:0.75rem; color:#777; margin-top:auto;
+    }
+    .save-btn {
+      background:var(--accent);
+      color:white;
+      border:none;
+      border-radius:4px;
+      padding:0.3rem 0.5rem;
+      font-size:0.7rem;
+      cursor:pointer;
+      margin-top:0.5rem;
+      align-self:flex-start;
+    }
+    .saved-books .book-card {
+      position:relative;
+    }
+    .saved-books .book-card::after {
+      content:"Saved";
+      position:absolute; top:10px; right:10px;
+      background:rgba(0,0,0,0.7);
+      color:white;
+      padding:0.2rem 0.5rem;
+      border-radius:4px;
+      font-size:0.7rem;
+    }
+
+    /* Widgets */
+    .widget {
+      background:var(--light);
+      border-radius:10px;
+      padding:1rem;
+      box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    }
+    .widget-title {
+      font-size:1.1rem; margin-bottom:1rem;
+      color:var(--accent); display:flex; align-items:center; gap:0.5rem;
+    }
+    .widget-title i { font-size:1.2rem; }
+    .trending-list, .categories-list {
+      list-style:none; padding:0; margin:0;
+    }
+    .trending-item, .author-card {
+      display:flex; align-items:center; padding:0.7rem 0;
+      border-bottom:1px solid var(--dark-gray);
+    }
+    .trending-item:last-child,
+    .author-card:last-child { border-bottom:none; }
+    .trending-number { font-weight:bold; color:var(--accent); margin-right:0.8rem; }
+    .trending-name { flex-grow:1; font-size:0.9rem; }
+    .trending-count { color:#777; font-size:0.8rem; }
+    .author-pic {
+      width:40px; height:40px; border-radius:50%; object-fit:cover; margin-right:0.8rem;
+    }
+    .author-info { flex-grow:1; }
+    .author-name { font-weight:bold; font-size:0.9rem; }
+    .author-specialty { color:#777; font-size:0.8rem; }
+    .follow-btn {
+      background:var(--accent); color:white; border:none;
+      border-radius:4px; padding:0.3rem 0.8rem; font-size:0.7rem; cursor:pointer;
+    }
+    .categories-list {
+      display:flex; flex-wrap:wrap; gap:0.5rem;
+    }
+    .category-tag {
+      background:var(--gray); color:var(--text);
+      padding:0.4rem 0.8rem; border-radius:20px; font-size:0.8rem;
+      cursor:pointer; transition:all 0.3s;
+    }
+    .category-tag:hover {
+      background:var(--accent); color:white;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position:fixed; bottom:0; left:0; right:0;
+      background:var(--light); display:flex; justify-content:space-around;
+      padding:0.8rem 0; box-shadow:0 -2px 5px rgba(0,0,0,0.1); z-index:100;
+    }
+    .nav-item {
+      display:flex; flex-direction:column; align-items:center;
+      text-decoration:none; color:#666; font-size:0.8rem; transition:color 0.3s;
+    }
+    .nav-item i { font-size:1.2rem; margin-bottom:0.2rem; }
+    .nav-item.active { color:var(--accent); font-weight:bold; }
+
+    @media (max-width:900px) {
+      .main-content { flex-direction:column; }
+      .right-column {
+        display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem;
+      }
+    }
+    @media (max-width:600px) {
+      .books-grid { grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); }
+      .book-cover { height:150px; }
+      .right-column { grid-template-columns:1fr; }
+      .search-bar { flex-direction:column; }
+      .search-btn { margin-left:0; margin-top:0.5rem; padding:0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav>
+    <div class="logo">Cooking Community</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="profile1.html">Profile</a></li>
+      <li><a href="recipe_book_page.html" class="active">Recipes</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="following.html">Following</a></li>
+      <li><a href="shorts_page.html">Shorts</a></li>
+      <li><a href="detail.html">Complete Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Search Bar -->
+  <div class="search-container">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search recipe books, authors...">
+      <button class="search-btn">Search</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Left Column -->
+    <div class="left-column">
+      <!-- Popular Recipe Books -->
+      <div class="section-title">
+        <span>Popular Recipe Books</span>
+        <a href="#" class="see-all">See All</a>
+      </div>
+      <div class="books-grid">
+        <div class="book-card" onclick="openBook('flavor-bible')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/81V7pZq0w8L.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">The Flavor Bible</div>
+            <div class="book-author">Karen Page &amp; Andrew Dornenburg</div>
+            <div class="book-stats"><span>4.8 ★</span><span>1.2K reviews</span></div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openBook('salt-fat-acid-heat')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/71bFPWOBtJL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">Salt, Fat, Acid, Heat</div>
+            <div class="book-author">Samin Nosrat</div>
+            <div class="book-stats"><span>4.9 ★</span><span>3.4K reviews</span></div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openBook('joy-of-cooking')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/91X9rSWnKVL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">Joy of Cooking</div>
+            <div class="book-author">Irma S. Rombauer</div>
+            <div class="book-stats"><span>4.7 ★</span><span>2.8K reviews</span></div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openBook('on-food-and-cooking')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/81xR7gYrzZL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">On Food and Cooking</div>
+            <div class="book-author">Harold McGee</div>
+            <div class="book-stats"><span>4.8 ★</span><span>1.5K reviews</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommended For You -->
+      <div class="section-title">
+        <span>Recommended For You</span>
+        <a href="#" class="see-all">See All</a>
+      </div>
+      <div class="books-grid">
+        <div class="book-card" onclick="openBook('vegetable-bible')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/81+Q9ZvNkRL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">The Vegetable Bible</div>
+            <div class="book-author">Marie-France Farré</div>
+            <div class="book-stats"><span>4.6 ★</span><span>856 reviews</span></div>
+            <button class="save-btn">Save for Later</button>
+          </div>
+        </div>
+        <div class="book-card" onclick="openBook('bread-baker')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/91+8u8lQYDL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">The Bread Baker's Apprentice</div>
+            <div class="book-author">Peter Reinhart</div>
+            <div class="book-stats"><span>4.8 ★</span><span>1.1K reviews</span></div>
+            <button class="save-btn">Save for Later</button>
+          </div>
+        </div>
+        <div class="book-card" onclick="openBook('dining-in')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/81f4z0x3YJL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">Dining In</div>
+            <div class="book-author">Alison Roman</div>
+            <div class="book-stats"><span>4.7 ★</span><span>924 reviews</span></div>
+            <button class="save-btn">Save for Later</button>
+          </div>
+        </div>
+        <div class="book-card" onclick="openBook('food-lab')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/71yH7mGqHBL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">The Food Lab</div>
+            <div class="book-author">J. Kenji López-Alt</div>
+            <div class="book-stats"><span>4.9 ★</span><span>2.3K reviews</span></div>
+            <button class="save-btn">Save for Later</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Your Saved Books -->
+      <div class="section-title">
+        <span>Your Saved Books</span>
+        <a href="#" class="see-all">See All</a>
+      </div>
+      <div class="books-grid saved-books">
+        <div class="book-card" onclick="openBook('plenty')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/81XQZ+5X5BL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">Plenty</div>
+            <div class="book-author">Yotam Ottolenghi</div>
+            <div class="book-stats"><span>4.7 ★</span><span>1.4K reviews</span></div>
+          </div>
+        </div>
+        <div class="book-card" onclick="openBook('six-seasons')">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/81Q7x1GZ0ZL.AC_UL600_SR600,600.jpg" class="book-cover">
+          <div class="book-info">
+            <div class="book-title">Six Seasons</div>
+            <div class="book-author">Joshua McFadden</div>
+            <div class="book-stats"><span>4.8 ★</span><span>672 reviews</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+      <div class="widget">
+        <h3 class="widget-title"><i class="fas fa-fire"></i> Trending Now</h3>
+        <ul class="trending-list">
+          <li class="trending-item"><span class="trending-number">1</span><span class="trending-name">Mediterranean Diet Cookbook</span><span class="trending-count">+1.2K</span></li>
+          <li class="trending-item"><span class="trending-number">2</span><span class="trending-name">Instant Pot Bible</span><span class="trending-count">+856</span></li>
+          <li class="trending-item"><span class="trending-number">3</span><span class="trending-name">Keto Comfort Foods</span><span class="trending-count">+723</span></li>
+          <li class="trending-item"><span class="trending-number">4</span><span class="trending-name">Japanese Home Cooking</span><span class="trending-count">+612</span></li>
+          <li class="trending-item"><span class="trending-number">5</span><span class="trending-name">The Wok Cookbook</span><span class="trending-count">+598</span></li>
+        </ul>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title"><i class="fas fa-user-check"></i> Popular Authors</h3>
+        <div class="author-card">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" class="author-pic" alt="">
+          <div class="author-info"><div class="author-name">Julia Child</div><div class="author-specialty">French Cuisine</div></div>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="author-card">
+          <img src="https://randomuser.me/api/portraits/men/22.jpg" class="author-pic" alt="">
+          <div class="author-info"><div class="author-name">Gordon Ramsay</div><div class="author-specialty">Fine Dining</div></div>
+          <button class="follow-btn">Follow</button>
+        </div>
+        <div class="author-card">
+          <img src="https://randomuser.me/api/portraits/women/33.jpg" class="author-pic" alt="">
+          <div class="author-info"><div class="author-name">Nigella Lawson</div><div class="author-specialty">Comfort Food</div></div>
+          <button class="follow-btn">Follow</button>
+        </div>
+      </div>
+
+      <div class="widget">
+        <h3 class="widget-title"><i class="fas fa-tags"></i> Recipe Categories</h3>
+        <div class="categories-list">
+          <span class="category-tag">Vegetarian</span>
+          <span class="category-tag">Vegan</span>
+          <span class="category-tag">Keto</span>
+          <span class="category-tag">Gluten-Free</span>
+          <span class="category-tag">Desserts</span>
+          <span class="category-tag">Baking</span>
+          <span class="category-tag">Grilling</span>
+          <span class="category-tag">Slow Cooker</span>
+          <span class="category-tag">Quick Meals</span>
+          <span class="category-tag">Healthy</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="videos.html" class="nav-item"><i class="fas fa-play-circle"></i><span>Videos</span></a>
+    <a href="shorts_page.html" class="nav-item"><i class="fas fa-film"></i><span>Shorts</span></a>
+    <a href="recipe_book_page.html" class="nav-item active"><i class="fas fa-book-open"></i><span>Recipes</span></a>
+    <a href="following.html" class="nav-item"><i class="fas fa-user-friends"></i><span>Following</span></a>
+  </nav>
+
+  <script>
+    function openBook(bookId) {
+      alert(`Opening book: ${bookId}`);
+    }
+
+    document.querySelectorAll('.save-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const title = this.closest('.book-card').querySelector('.book-title').textContent;
+        alert(`Book "${title}" saved to your collection!`);
+        this.textContent = "Saved!";
+        this.style.backgroundColor = "#4CAF50";
+      });
+    });
+
+    document.querySelectorAll('.follow-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const authorName = this.closest('.author-card').querySelector('.author-name').textContent;
+        if (this.textContent === "Follow") {
+          this.textContent = "Following";
+          this.style.backgroundColor = "#4CAF50";
+          alert(`You're now following ${authorName}`);
+        } else {
+          this.textContent = "Follow";
+          this.style.backgroundColor = "var(--accent)";
+        }
+      });
+    });
+
+    document.querySelectorAll('.category-tag').forEach(tag => {
+      tag.addEventListener('click', function() {
+        alert(`Showing books in category: ${this.textContent}`);
+      });
+    });
+
+    document.querySelector('.search-btn').addEventListener('click', function() {
+      const term = document.querySelector('.search-bar input').value;
+      if (term.trim()) alert(`Searching for: ${term}`);
+    });
+
+    document.querySelector('.search-bar input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.querySelector('.search-btn').click();
+      }
+    });
+  </script>
+</body>
+</html>

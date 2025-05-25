@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cooking Community - Home</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #8DD8FF, #BBFBFF);
+      min-height: 100vh;
+    }
+    header {
+      background-color: #8DD8FF;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 1rem;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      background-color: #ffffff33;
+      border-radius: 6px;
+      transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    nav a:hover {
+      transform: scale(1.1);
+      background-color: #ffffff55;
+    }
+    section {
+      padding: 2rem;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 10px;
+      margin: 1rem auto;
+      max-width: 1200px;
+    }
+    .photo-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      margin: 2rem 0;
+    }
+    .photo-row {
+      display: flex;
+      gap: 2rem;
+      padding: 1rem 0;
+      width: max-content;
+      animation: scroll 30s linear infinite;
+    }
+    .photo-row:hover {
+      animation-play-state: paused;
+    }
+    .photo-row img {
+      width: 250px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+    }
+    .photo-row img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .modal input, .modal select, .modal textarea {
+      width: 90%;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    .modal button {
+      background-color: #8DD8FF;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      margin-top: 1rem;
+    }
+    .modal button:hover {
+      background-color: #6bc8ff;
+    }
+    .close {
+      float: right;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .close:hover {
+      color: #8DD8FF;
+    }
+    .hidden {
+      display: none;
+    }
+    .profile-pic-container {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 1rem;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      border: 3px solid #8DD8FF;
+    }
+    .profile-pic-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-pic-upload {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+    .profile-pic-upload input {
+      display: none;
+    }
+    .profile-info {
+      text-align: left;
+      margin-top: 2rem;
+    }
+    .profile-info h3 {
+      color: #8DD8FF;
+      border-bottom: 2px solid #8DD8FF;
+      padding-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Cooking Community</h1>
+    <nav>
+      <a href="#profile" id="profileBtn" class="hidden">Profile</a>
+      <a href="#login" id="loginBtn">Login</a>
+      <a href="#signup" id="signupBtn">Sign Up</a>
+    </nav>
+  </header>
+
+  <section id="home">
+    <h2>Welcome to the Cooking Community!</h2>
+    <p>Share your favorite recipes, cooking tips, and upload your recipe eBooks. Connect with fellow food lovers today!</p>
+  </section>
+
+  <section>
+    <div class="photo-container">
+      <div class="photo-row">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=250&h=180&auto=format&fit=crop" alt="Healthy Salad">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=250&h=180&auto=format&fit=crop" alt="Vegetable Bowl">
+        <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=250&h=180&auto=format&fit=crop" alt="Breakfast">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=250&h=180&auto=format&fit=crop" alt="Pasta">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=250&h=180&auto=format&fit=crop" alt="Dinner">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=250&h=180&auto=format&fit=crop" alt="Healthy Salad">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=250&h=180&auto=format&fit=crop" alt="Vegetable Bowl">
+        <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=250&h=180&auto=format&fit=crop" alt="Breakfast">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=250&h=180&auto=format&fit=crop" alt="Pasta">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=250&h=180&auto=format&fit=crop" alt="Dinner">
+      </div>
+    </div>
+  </section>
+
+  <section id="profile" class="hidden">
+    <div class="profile-pic-container">
+      <img id="profilePicDisplay" src="https://via.placeholder.com/150?text=Profile+Pic" alt="Profile Picture">
+      <label class="profile-pic-upload">
+        Change Photo
+        <input type="file" id="profilePicUpload" accept="image/*">
+      </label>
+    </div>
+    <h2 id="profileName">User Name</h2>
+    <div class="profile-info">
+      <h3>About Me</h3>
+      <p id="profileBio">This is my bio. I love cooking!</p>
+      <h3>Contact Information</h3>
+      <p>Email: <span id="profileEmail">user@example.com</span></p>
+      <p>Location: <span id="profileLocation">New York, USA</span></p>
+      <h3>Cooking Preferences</h3>
+      <p>Cuisine: <span id="profileCuisine">Italian, Mexican</span></p>
+      <p>Diet: <span id="profileDiet">Vegetarian</span></p>
+    </div>
+  </section>
+
+  <section id="login" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('login')">&times;</span>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="signup" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('signup')">&times;</span>
+      <h2>Sign Up</h2>
+      <form id="signupForm">
+        <input type="text" id="signupName" placeholder="Name" required />
+        <input type="email" id="signupEmail" placeholder="Email" required />
+        <input type="password" id="signupPassword" placeholder="Password" required />
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="profileSetup" class="modal hidden">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('profileSetup')">&times;</span>
+      <h2>Complete Your Profile</h2>
+      <form id="profileSetupForm">
+        <div class="profile-pic-container">
+          <img id="profilePicPreview" src="https://via.placeholder.com/150?text=Upload+Photo" alt="Profile Preview">
+          <label class="profile-pic-upload">
+            Upload Photo
+            <input type="file" id="profilePicInput" accept="image/*" required>
+          </label>
+        </div>
+        <textarea id="profileBioInput" placeholder="Tell us about yourself..." rows="3"></textarea>
+        <input type="text" id="profileLocationInput" placeholder="Location">
+        <select id="profileCuisineInput">
+          <option value="">Favorite Cuisine</option>
+          <option value="Italian">Italian</option>
+          <option value="Mexican">Mexican</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Indian">Indian</option>
+          <option value="French">French</option>
+          <option value="Other">Other</option>
+        </select>
+        <select id="profileDietInput">
+          <option value="">Dietary Preference</option>
+          <option value="Vegetarian">Vegetarian</option>
+          <option value="Vegan">Vegan</option>
+          <option value="Gluten-Free">Gluten-Free</option>
+          <option value="Keto">Keto</option>
+          <option value="No Restrictions">No Restrictions</option>
+        </select>
+        <button type="submit">Save Profile</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Store user data
+    let currentUser = null;
+    
+    // DOM elements
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const profileBtn = document.getElementById('profileBtn');
+    const homeSection = document.getElementById('home');
+    const profileSection = document.getElementById('profile');
+    
+    // Event listeners
+    loginBtn.addEventListener('click', () => {
+      document.getElementById('login').classList.remove('hidden');
+    });
+    
+    signupBtn.addEventListener('click', () => {
+      document.getElementById('signup').classList.remove('hidden');
+    });
+    
+    profileBtn.addEventListener('click', () => {
+      homeSection.classList.add('hidden');
+      profileSection.classList.remove('hidden');
+    });
+    
+    // Close modal function
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+    
+    // Signup form submission
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      
+      // Create user object
+      currentUser = {
+        name,
+        email,
+        password,
+        profileComplete: false
+      };
+      
+      // Close signup modal and open profile setup
+      closeModal('signup');
+      document.getElementById('profileSetup').classList.remove('hidden');
+      
+      // Show profile button
+      profileBtn.classList.remove('hidden');
+    });
+    
+    // Profile setup form submission
+    document.getElementById('profileSetupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const bio = document.getElementById('profileBioInput').value;
+      const location = document.getElementById('profileLocationInput').value;
+      const cuisine = document.getElementById('profileCuisineInput').value;
+      const diet = document.getElementById('profileDietInput').value;
+      
+      // Update user object
+      currentUser = {
+        ...currentUser,
+        bio,
+        location,
+        cuisine,
+        diet,
+        profileComplete: true
+      };
+      
+      // Update profile page
+      updateProfilePage();
+      
+      // Close profile setup modal
+      closeModal('profileSetup');
+      
+      // Show profile page
+      homeSection.classList.add('hidden');
+      profileSection.classList.remove('hidden');
+    });
+    
+    // Profile picture upload
+    document.getElementById('profilePicInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById('profilePicPreview').src = event.target.result;
+          if (currentUser) {
+            currentUser.profilePic = event.target.result;
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Profile picture change on profile page
+    document.getElementById('profilePicUpload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById('profilePicDisplay').src = event.target.result;
+          if (currentUser) {
+            currentUser.profilePic = event.target.result;
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Update profile page with user data
+    function updateProfilePage() {
+      if (!currentUser) return;
+      
+      document.getElementById('profileName').textContent = currentUser.name;
+      document.getElementById('profileEmail').textContent = currentUser.email;
+      
+      if (currentUser.profilePic) {
+        document.getElementById('profilePicDisplay').src = currentUser.profilePic;
+      }
+      
+      if (currentUser.bio) {
+        document.getElementById('profileBio').textContent = currentUser.bio;
+      }
+      
+      if (currentUser.location) {
+        document.getElementById('profileLocation').textContent = currentUser.location;
+      }
+      
+      if (currentUser.cuisine) {
+        document.getElementById('profileCuisine').textContent = currentUser.cuisine;
+      }
+      
+      if (currentUser.diet) {
+        document.getElementById('profileDiet').textContent = currentUser.diet;
+      }
+    }
+    
+    // Login form submission (simplified for demo)
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Login functionality would be implemented here');
+      closeModal('login');
+    });
+  </script>
+</body>
+</html>

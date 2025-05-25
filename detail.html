@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complete Your Profile - Cooking Community</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #8DD8FF, #BBFBFF);
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #ffffffdd;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #8DD8FF;
+    }
+
+    .profile-container {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 10px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin: 2rem auto;
+    }
+
+    h1 {
+      color: #8DD8FF;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .profile-pic-container {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      border: 3px solid #8DD8FF;
+    }
+
+    .profile-pic-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-pic-upload {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    .profile-pic-upload input {
+      display: none;
+    }
+
+    .btn-submit {
+      background-color: #8DD8FF;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .btn-submit:hover {
+      background-color: #6bc8ff;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .form-row .form-group {
+      flex: 1 1 48%;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">Cooking Community</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="profile1.html">Profile</a></li>
+      <li><a href="recipe_book_page.html">Recipes</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="following.html">Following</a></li>
+      <li><a href="shorts_page.html">Shorts</a></li>
+      <li><a href="detail.html">Complete Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Profile Completion Form -->
+  <div class="profile-container">
+    <h1>Complete Your Profile</h1>
+
+    <div class="profile-pic-container">
+      <img id="profilePicPreview" src="https://via.placeholder.com/150?text=Upload+Photo" alt="Profile Preview">
+      <label class="profile-pic-upload">
+        Upload Photo
+        <input type="file" id="profilePicInput" accept="image/*">
+      </label>
+    </div>
+
+    <form id="profileForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" required placeholder="Enter your full name">
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" required placeholder="Choose a username">
+      </div>
+
+      <div class="form-group">
+        <label for="bio">About You</label>
+        <textarea id="bio" placeholder="Tell us about yourself and your cooking interests"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="City, Country">
+        </div>
+
+        <div class="form-group">
+          <label for="experience">Cooking Experience</label>
+          <select id="experience" required>
+            <option value="">Select your level</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+            <option value="professional">Professional</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cuisine">Favorite Cuisine</label>
+          <select id="cuisine">
+            <option value="">Select favorite</option>
+            <option value="italian">Italian</option>
+            <option value="mexican">Mexican</option>
+            <option value="indian">Indian</option>
+            <option value="chinese">Chinese</option>
+            <option value="french">French</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="diet">Dietary Preference</label>
+          <select id="diet">
+            <option value="">Select preference</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+            <option value="gluten-free">Gluten-Free</option>
+            <option value="keto">Keto</option>
+            <option value="none">No Restrictions</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="social">Social Media (optional)</label>
+        <input type="text" id="social" placeholder="Instagram/Twitter handle">
+      </div>
+
+      <button type="submit" class="btn-submit">Save Profile</button>
+    </form>
+  </div>
+
+  <script>
+    // Handle profile picture upload preview
+    document.getElementById('profilePicInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById('profilePicPreview').src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Handle form submission
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const profileData = {
+        fullName: document.getElementById('fullName').value,
+        username: document.getElementById('username').value,
+        bio: document.getElementById('bio').value,
+        location: document.getElementById('location').value,
+        experience: document.getElementById('experience').value,
+        cuisine: document.getElementById('cuisine').value,
+        diet: document.getElementById('diet').value,
+        social: document.getElementById('social').value,
+        profilePic: document.getElementById('profilePicPreview').src
+      };
+
+      console.log('Profile data:', profileData);
+      alert('Profile saved successfully!');
+      // Redirect if needed
+      // window.location.href = 'profile1.html';
+    });
+  </script>
+</body>
+</html>

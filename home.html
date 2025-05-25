@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home - Cooking Community</title>
+  <style>
+    :root {
+      --primary: #8DD8FF;
+      --secondary: #BBFBFF;
+      --accent: #6bc8ff;
+      --text: #333;
+      --light: #fff;
+      --gray: #f5f5f5;
+      --dark-gray: #ddd;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    /* Navbar (same as detail.html) */
+    nav {
+      background-color: #ffffffdd;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: var(--accent);
+      color: var(--light);
+    }
+
+    /* Search Bar */
+    .search-container {
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-bar {
+      width: 100%;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 3rem;
+      border-radius: 30px;
+      border: none;
+      font-size: 1rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+
+    /* Content Sections */
+    .content-section {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .section-title {
+      margin: 1rem 0;
+      font-size: 1.3rem;
+      text-align: center;
+      width: 100%;
+    }
+
+    .video-grid-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      padding: 0 1rem;
+    }
+
+    .video-card {
+      background: var(--light);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .video-thumbnail {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .video-info {
+      padding: 1rem;
+    }
+
+    .video-title {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .video-creator {
+      color: #666;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .creator-pic {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 600px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+      .video-thumbnail {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav>
+    <div class="logo">Cooking Community</div>
+    <ul>
+      <li><a href="home.html" class="active">Home</a></li>
+      <li><a href="login.html">Login</a></li>
+      <li><a href="profile1.html">Profile</a></li>
+      <li><a href="recipe_book_page.html">Recipes</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="following.html">Following</a></li>
+      <li><a href="shorts_page.html">Shorts</a></li>
+      <li><a href="detail.html">Complete Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Search -->
+  <div class="search-container">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search recipes, chefs, or ingredients...">
+    </div>
+  </div>
+
+  <!-- Recommended Section -->
+  <div class="content-section">
+    <h2 class="section-title">Recommended For You</h2>
+    <div class="video-grid-container">
+      <div class="video-grid">
+        <a href="watch.html?v=pasta" class="video-card">
+          <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="video-thumbnail" alt="Pasta">
+          <div class="video-info">
+            <div class="video-title">Perfect Homemade Pasta in 30 Minutes</div>
+            <div class="video-creator">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" class="creator-pic" alt="Chef Marco">
+              <span>Chef Marco</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="watch.html?v=sushi" class="video-card">
+          <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="video-thumbnail" alt="Sushi">
+          <div class="video-info">
+            <div class="video-title">Sushi Making for Beginners</div>
+            <div class="video-creator">
+              <img src="https://randomuser.me/api/portraits/women/65.jpg" class="creator-pic" alt="Yuki's Kitchen">
+              <span>Yuki's Kitchen</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="watch.html?v=dessert" class="video-card">
+          <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="video-thumbnail" alt="Dessert">
+          <div class="video-info">
+            <div class="video-title">5 Easy Desserts in 15 Minutes</div>
+            <div class="video-creator">
+              <img src="https://randomuser.me/api/portraits/women/22.jpg" class="creator-pic" alt="Sweet Treats">
+              <span>Sweet Treats</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <h2 class="section-title" style="margin-top: 2rem;">Trending Now</h2>
+    <div class="video-grid-container">
+      <div class="video-grid">
+        <a href="watch.html?v=vegan" class="video-card">
+          <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="video-thumbnail" alt="Vegan Bowl">
+          <div class="video-info">
+            <div class="video-title">Vegan Buddha Bowl Recipes</div>
+            <div class="video-creator">
+              <img src="https://randomuser.me/api/portraits/women/33.jpg" class="creator-pic" alt="Green Eats">
+              <span>Green Eats</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="watch.html?v=bbq" class="video-card">
+          <img src="https://images.unsplash.com/photo-1558030006-450675393462?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="video-thumbnail" alt="BBQ">
+          <div class="video-info">
+            <div class="video-title">Summer BBQ Masterclass</div>
+            <div class="video-creator">
+              <img src="https://randomuser.me/api/portraits/men/75.jpg" class="creator-pic" alt="Grill Master Mike">
+              <span>Grill Master Mike</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="watch.html?v=bread" class="video-card">
+          <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="video-thumbnail" alt="Bread">
+          <div class="video-info">
+            <div class="video-title">Artisan Bread at Home</div>
+            <div class="video-creator">
+              <img src="https://randomuser.me/api/portraits/men/42.jpg" class="creator-pic" alt="Bread Baker Tom">
+              <span>Bread Baker Tom</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional: If you still want a bottom nav, you can re-add it here using the same link structure -->
+  <script>
+    // Highlight “Home” in navbar
+    document.querySelectorAll('nav ul li a').forEach(a => {
+      if (a.getAttribute('href') === 'home.html') a.classList.add('active');
+    });
+  </script>
+
+</body>
+</html>
