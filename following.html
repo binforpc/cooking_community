@@ -741,6 +741,8 @@
     });
 
     // RSVP
+    const searchBtn = document.querySelector('.search-btn');
+    const searchInput = document.querySelector('.search-bar input');
     document.querySelectorAll('.event-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const title = btn.closest('.event-item').querySelector('.event-title').textContent;
@@ -751,8 +753,7 @@
     });
 
     // Search
-    const searchBtn = document.querySelector('.search-btn');
-    const searchInput = document.querySelector('.search-bar input');
+    
     searchBtn.addEventListener('click', () => {
       if (searchInput.value.trim()) {
         alert(`Searching for: ${searchInput.value}`);
